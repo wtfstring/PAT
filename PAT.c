@@ -1,10 +1,9 @@
 /*
 *
 */
-
-//********************************¿É°ÑÕâĞ©³ÌĞòĞ´Èëgithub***************/
+//********************************å¯æŠŠè¿™äº›ç¨‹åºå†™å…¥github***************/
 //
-// 1 //////***************************01-¸´ÔÓ¶È1 ×î´ó×ÓÁĞºÍÎÊÌâ
+// 1 //////***************************01-å¤æ‚åº¦1 æœ€å¤§å­åˆ—å’Œé—®é¢˜
 /*
 #include <stdio.h>
 #define MAXVAL 100000
@@ -37,7 +36,7 @@ int Subseqsum(int s[],int n)
 }
 */
 
-// 2 ///***************************01-¸´ÔÓ¶È2 Maximum Subsequence Sum
+// 2 ///***************************01-å¤æ‚åº¦2 Maximum Subsequence Sum
 /*
 #include <stdio.h>
 int main()
@@ -77,15 +76,15 @@ int main()
 }
 */
 
-// 3 ///***************************02-ÏßĞÔ½á¹¹1 Ò»Ôª¶àÏîÊ½µÄ³Ë·¨Óë¼Ó·¨ÔËËã
+// 3 ///***************************02-çº¿æ€§ç»“æ„1 ä¸€å…ƒå¤šé¡¹å¼çš„ä¹˜æ³•ä¸åŠ æ³•è¿ç®—
 /*
 #include <stdio.h>
 #include <stdlib.h>
 
 typedef struct PolyNode *Polynomial;
 struct PolyNode{
-	int coef;  //ÏµÊı
-	int expon;  //Ö¸Êı
+	int coef;  //ç³»æ•°
+	int expon;  //æŒ‡æ•°
 	Polynomial link;
 };
 Polynomial ReadPoly();
@@ -110,7 +109,7 @@ void Attach(int c,int e,Polynomial *pRear)
 {
 	Polynomial P;
 	P = (Polynomial)malloc(sizeof(struct PolyNode));
-	P->coef = c;  //¶ÔĞÂ½áµã¸³Öµ
+	P->coef = c;  //å¯¹æ–°ç»“ç‚¹èµ‹å€¼
 	P->expon = e;
 	P->link = NULL;
 	(*pRear)->link = P;
@@ -122,14 +121,14 @@ Polynomial ReadPoly()
 	int c,e,N;
 
 	scanf("%d",&N);
-	P = (Polynomial)malloc(sizeof(struct PolyNode));  //Á´±íÍ·¿Õ½áµã/
+	P = (Polynomial)malloc(sizeof(struct PolyNode));  //é“¾è¡¨å¤´ç©ºç»“ç‚¹/
 	P->link = NULL;
 	Rear = P;
 	while(N--){
 		scanf("%d %d",&c,&e);
-		Attach(c,e,&Rear);  //½«µ±Ç°Ïî²åÈëµ½¶àÏîÊ½Î²²¿/
+		Attach(c,e,&Rear);  //å°†å½“å‰é¡¹æ’å…¥åˆ°å¤šé¡¹å¼å°¾éƒ¨/
 	}
-	t = P; P = P->link; free(t);  //É¾³ıÁÙÊ±Éú³ÉµÄÍ·½áµã/
+	t = P; P = P->link; free(t);  //åˆ é™¤ä¸´æ—¶ç”Ÿæˆçš„å¤´ç»“ç‚¹/
 	return P;
 }
 Polynomial Add(Polynomial P1,Polynomial P2)
@@ -180,7 +179,7 @@ Polynomial Mult(Polynomial P1,Polynomial P2)
 	P = (Polynomial)malloc(sizeof(struct PolyNode));
 	P->link = NULL;
 	Rear = P;
-	while(t2){  //ÏÈÓÃP1µÄµÚÒ»Ïî³ËÒÔP2£¬µÃµ½P/
+	while(t2){  //å…ˆç”¨P1çš„ç¬¬ä¸€é¡¹ä¹˜ä»¥P2ï¼Œå¾—åˆ°P/
 		Attach(t1->coef * t2->coef,t1->expon + t2->expon,&Rear);
 		t2 = t2->link;
 	}
@@ -232,11 +231,11 @@ void PrintPoly(Polynomial P)
 }
 */
 
-// 4 ///02-ÏßĞÔ½á¹¹2 Reversing Linked List
+// 4 ///02-çº¿æ€§ç»“æ„2 Reversing Linked List
 
-// 5 ///02-ÏßĞÔ½á¹¹3 Pop Sequence
+// 5 ///02-çº¿æ€§ç»“æ„3 Pop Sequence
 
-// 6 ///********************************03-Ê÷1 Ê÷µÄÍ¬¹¹****************
+// 6 ///********************************03-æ ‘1 æ ‘çš„åŒæ„****************
 /*
 #include <stdio.h>
 
@@ -304,9 +303,9 @@ int BuildTree(struct TreeNode T[])
 
 int Isomorphic(Tree R1, Tree R2)
 {
-	if (R1 == Null && R2 == Null)   //Á½¸öÊ÷¶¼Îª¿Õ
+	if (R1 == Null && R2 == Null)   //ä¸¤ä¸ªæ ‘éƒ½ä¸ºç©º
 		return 1;
-	if ((R1 == Null && R2 != Null) || (R1 != Null && R2 == Null))  //ÆäÖĞÒ»¸öÎª¿Õ
+	if ((R1 == Null && R2 != Null) || (R1 != Null && R2 == Null))  //å…¶ä¸­ä¸€ä¸ªä¸ºç©º
 		return 0;
 	if (T1[R1].Element != T2[R2].Element)
 		return 0;
@@ -320,7 +319,7 @@ int Isomorphic(Tree R1, Tree R2)
 }
 */
 
-// 7 ///********************************03-Ê÷2 List Leaves*****
+// 7 ///********************************03-æ ‘2 List Leaves*****
 /*
 #include <stdio.h>
 
@@ -345,7 +344,7 @@ int main()
 	return 0;
 }
 
-int BuildTree(struct TreeNode T[])  //¹¹½¨Ê÷
+int BuildTree(struct TreeNode T[])  //æ„å»ºæ ‘
 {
 	char cl,cr;
 	int N,i;
@@ -369,57 +368,57 @@ int BuildTree(struct TreeNode T[])  //¹¹½¨Ê÷
 			else 
 				T[i].Right = Null;
 		}
-		for (i = 0; i < N; i++)  //ÕÒµ½¸ù½áµã
+		for (i = 0; i < N; i++)  //æ‰¾åˆ°æ ¹ç»“ç‚¹
 			if (!check[i]) break;
 		Root = i;
 	}
 	return Root;
 }
 
-void LevelOrderTraversal(int RNode)  //²ÉÓÃ¶ÓÁĞ²ã´Î±éÀúÊ÷
+void LevelOrderTraversal(int RNode)  //é‡‡ç”¨é˜Ÿåˆ—å±‚æ¬¡éå†æ ‘
 {
 	int Queue[MaxTree],head,rear;
 	int leaves = 0;
 	head = rear = 0;
-	Queue[rear++] = RNode;  //¸ù½áµãÈë¶Ó
+	Queue[rear++] = RNode;  //æ ¹ç»“ç‚¹å…¥é˜Ÿ
 	while (rear - head){
-		int node = Queue[head++];  //¶ÓÊ×½áµã³ö¶Ó			
-		if (T[node].left == -1 && T[node].Right == -1) {  //Êä³öÒ¶×Ó½áµã
+		int node = Queue[head++];  //é˜Ÿé¦–ç»“ç‚¹å‡ºé˜Ÿ			
+		if (T[node].left == -1 && T[node].Right == -1) {  //è¾“å‡ºå¶å­ç»“ç‚¹
 			if (leaves)
 				printf(" ");
 			printf("%d",node);
 			leaves++;
 		}
-		if (T[node].left != -1) {  //Èç¹û´æÔÚ£¬×ó¶ù×ÓÈë¶Ó
+		if (T[node].left != -1) {  //å¦‚æœå­˜åœ¨ï¼Œå·¦å„¿å­å…¥é˜Ÿ
 			Queue[rear++] = T[node].left;
 		}
-		if (T[node].Right != -1) {  //Èç¹û´æÔÚ£¬ÓÒ¶ù×ÓÈë¶Ó
+		if (T[node].Right != -1) {  //å¦‚æœå­˜åœ¨ï¼Œå³å„¿å­å…¥é˜Ÿ
 			Queue[rear++] = T[node].Right;
 		}
 	}
 }
 */
 
-// 8 ///********************************03-Ê÷3 Tree Traversals Again*****
+// 8 ///********************************03-æ ‘3 Tree Traversals Again*****
 
 #include <stdio.h>
 
 struct TNode{
-	int tag;    //±ê¼Ç½ÚµãÊÇµÚ¼¸´Î½øÕ»
+	int tag;    //æ ‡è®°èŠ‚ç‚¹æ˜¯ç¬¬å‡ æ¬¡è¿›æ ˆ
 	int num;
 };
 
-//ÏÈĞò±éÀú¶ÔÓ¦½øÕ»Ë³Ğò£¬ÖĞĞò±éÀú¶ÔÓ¦³öÕ»Ë³Ğò£»  
-//ºóĞò±éÀúÓëÖĞĞò±éÀú²»Í¬µÄÊÇ½Úµã³öÕ»ºóÒªÂíÉÏÔÙÈëÕ»£¨tag×öµÚ¶ş´ÎÈëÕ»±ê¼Ç£©£¬µÈÓÒ¶ù×Ó±éÀúÍêºóÔÙ³öÕ»;  
-//¾ßÌåÊµÏÖÉÏ£¬Ã¿´ÎÖĞĞò±éÀúµÄpopÊ±£¬Èç¹ûÕ»¶¥ÊÇ±ê¼Ç¹ıµÄ½Úµã£¨tag=2£©£¬Ñ­»·µ¯³ö£»Èç¹ûÃ»ÓĞ±ê¼Ç¹ı£¨tag=1£©
-//£¬×ö±ê¼Ç£¬¼´µ¯³öÔÙÑ¹Õ»,Õ»¶¥tag=2µÄ½Úµã¶ÔÓ¦ÖĞĞò±éÀúÖĞÒÑµ¯³öµÄ½Úµã£»Ñ­»·µ¯³ö
-//ºóÅöµ½µÄµÚÒ»¸ötag=1µÄ½Úµã²Å¶ÔÓ¦ÖĞĞò±éÀúµ±Ç°popµÄ½Úµã
+//å…ˆåºéå†å¯¹åº”è¿›æ ˆé¡ºåºï¼Œä¸­åºéå†å¯¹åº”å‡ºæ ˆé¡ºåºï¼›  
+//ååºéå†ä¸ä¸­åºéå†ä¸åŒçš„æ˜¯èŠ‚ç‚¹å‡ºæ ˆåè¦é©¬ä¸Šå†å…¥æ ˆï¼ˆtagåšç¬¬äºŒæ¬¡å…¥æ ˆæ ‡è®°ï¼‰ï¼Œç­‰å³å„¿å­éå†å®Œåå†å‡ºæ ˆ;  
+//å…·ä½“å®ç°ä¸Šï¼Œæ¯æ¬¡ä¸­åºéå†çš„popæ—¶ï¼Œå¦‚æœæ ˆé¡¶æ˜¯æ ‡è®°è¿‡çš„èŠ‚ç‚¹ï¼ˆtag=2ï¼‰ï¼Œå¾ªç¯å¼¹å‡ºï¼›å¦‚æœæ²¡æœ‰æ ‡è®°è¿‡ï¼ˆtag=1ï¼‰
+//ï¼Œåšæ ‡è®°ï¼Œå³å¼¹å‡ºå†å‹æ ˆ,æ ˆé¡¶tag=2çš„èŠ‚ç‚¹å¯¹åº”ä¸­åºéå†ä¸­å·²å¼¹å‡ºçš„èŠ‚ç‚¹ï¼›å¾ªç¯å¼¹å‡º
+//åç¢°åˆ°çš„ç¬¬ä¸€ä¸ªtag=1çš„èŠ‚ç‚¹æ‰å¯¹åº”ä¸­åºéå†å½“å‰popçš„èŠ‚ç‚¹
 
 int main()
 {
 	int N;
 	int i,flag = 0;
-	int size = 0; //Õ»ÔªËØ´óĞ¡£¬Ö¸ÏòÕ»¶¥µÄÏÂÒ»¸öÎ»ÖÃ
+	int size = 0; //æ ˆå…ƒç´ å¤§å°ï¼ŒæŒ‡å‘æ ˆé¡¶çš„ä¸‹ä¸€ä¸ªä½ç½®
 	struct TNode stack[30]; 
 	scanf("%d",&N);
 
@@ -427,22 +426,22 @@ int main()
 		char s[10];
 		scanf("%s",s);
 		if (s[1] == 'u') {  //push
-			scanf("%d",&stack[size].num);  //ÈëÕ»		
-			stack[size].tag = 1;  //±ê¼ÇµÚÒ»´ÎÈëÕ»
+			scanf("%d",&stack[size].num);  //å…¥æ ˆ		
+			stack[size].tag = 1;  //æ ‡è®°ç¬¬ä¸€æ¬¡å…¥æ ˆ
 			++size;
 		}
 		else {   //pop
-			while (size > 0 && stack[size - 1].tag == 2) {   //Ñ­»·µ¯³öÕ»¶¥tag=2µÄ½Úµã
+			while (size > 0 && stack[size - 1].tag == 2) {   //å¾ªç¯å¼¹å‡ºæ ˆé¡¶tag=2çš„èŠ‚ç‚¹
 				if (flag)
 					printf(" ");
 				flag = 1;
 				printf("%d",stack[--size].num);
 			}
-			if (size > 0)  //½«ÖĞĞò±éÀúÖĞÓ¦¸ÃÒªµ¯³öµÄ½Úµãµ¯³öÔÙÑ¹Õ»£¬×ö±ê¼Ç¼´¿É
+			if (size > 0)  //å°†ä¸­åºéå†ä¸­åº”è¯¥è¦å¼¹å‡ºçš„èŠ‚ç‚¹å¼¹å‡ºå†å‹æ ˆï¼Œåšæ ‡è®°å³å¯
 				stack[size - 1].tag = 2;
 		}
 	}
-	while (size) {  //½«Õ»ÖĞÊ£Óà½ÚµãÒÀ´Îµ¯³ö
+	while (size) {  //å°†æ ˆä¸­å‰©ä½™èŠ‚ç‚¹ä¾æ¬¡å¼¹å‡º
 		if (flag)
 			printf(" ");
 		flag = 1;
