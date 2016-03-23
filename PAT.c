@@ -232,7 +232,82 @@ void PrintPoly(Polynomial P)
 }
 */
 
-// 4 ///02-线性结构2 Reversing Linked List
+// 4 ///***************************02-线性结构2 Reversing Linked List.......
+//...出自http://blog.csdn.net/ice_camel/article/details/45156245
+//抽象的链表包括两部分：有块地方存数据，有块地方存指针——下一个结点的地址
+/*
+#include <stdio.h>
+#define MAX 100000
+typedef struct {
+	int data;
+	int next;
+}Node;
+int CountNodes(Node *list,int pList);  
+int ReverseK(Node *list,int pList,int n,int k);  //逆转链表，返回单链表的头结点
+void printfList(Node *list,int pNewList);  //打印单链表
+
+int main()
+{
+	int num,pNewList;
+	int pList,n,k,i;  //pList存放第一个结点的地址
+	int addr,data,next;  //存放数组下标(本结点的地址)，结点中的数据、下一个结点地址
+	Node list[MAX];
+
+	scanf("%d%d%d",&pList,&n,&k);
+	for (i = 0; i < n; i++) {
+		scanf("%d%d%d",&addr,&data,&next);
+		list[addr].data = data;
+		list[addr].next = next;
+	}
+	num = CountNodes(list,pList);  //因输入中有无效的结点，需要先计算单链表的总结点数
+	pNewList = ReverseK(list,pList,num,k);
+	printfList(list,pNewList);
+
+	return 0;
+}
+//记录单链表的结点数
+int CountNodes(Node *list,int pList)
+{
+	int cnt = 1;
+	while ((pList = list[pList].next) != -1)
+		cnt++;
+	return cnt;
+}
+//逆转链表，返回单链表的头结点的地址
+int ReverseK(Node *list,int pList,int n,int k)
+{
+	int prevNode,currNode,nextNode;  //需要连接的前一个结点、当前结点、后一个结点
+	int i,j,lastHead,head = -1;
+	prevNode = -1;
+	currNode = pList;
+	nextNode = list[currNode].next;
+	for (i = 0; i < n / k; i++) {  //分为n/k段分别逆转，每段K个节点
+		lastHead = head;  //记录前一段的（未逆转的）头结点，以便连接到当前段的（未逆转的)尾节点
+		head = currNode;  //记录当前段的头结点
+		for (j = 0; j < k; j++) {
+			list[currNode].next = prevNode;
+			prevNode = currNode;
+			currNode = nextNode;
+			nextNode = list[nextNode].next;
+		}
+		if (i == 0)  //第一段逆转后的头结点将作为表头返回
+			pList = prevNode;
+		else  //连接逆转后的前后两段
+			list[lastHead].next = prevNode;
+	}
+	list[head].next = currNode;
+
+	return pList;
+}
+//打印链表
+void printfList(Node *list,int p)
+{
+	while((p = list[p].next) != -1) {
+		printf("%05d %d %d\n",p,list[p].data,list[p].next);
+	}
+	printf("05%d %d %d\n",p,list[p].data,list[p].next);
+}
+*/
 
 // 5 ///02-线性结构3 Pop Sequence
 
@@ -401,7 +476,7 @@ void LevelOrderTraversal(int RNode)  //采用队列层次遍历树
 */
 
 // 8 ///********************************03-树3 Tree Traversals Again*****
-
+/*
 #include <stdio.h>
 
 struct TNode{
@@ -421,8 +496,8 @@ int main()
 	int i,flag = 0;
 	int size = 0; //栈元素大小，指向栈顶的下一个位置
 	struct TNode stack[30]; 
-	scanf("%d",&N);
 
+	scanf("%d",&N);
 	for (i = 0; i < (2 * N); i++) {
 		char s[10];
 		scanf("%s",s);
@@ -450,13 +525,122 @@ int main()
 	}
 	return 0;
 }
+*/
 
-/*
+// 9 ///********************************04-树4 是否同一棵二叉搜索树
+//搜索树的表示，建搜索树，判别一序列是否与搜索树T一致
 #include <stdio.h>
+#include <stdlib.h>
+
+typedef struct TreeNode *Tree;
+struct TreeNode {
+	int v;
+	Tree Left,Right;
+	int flag;
+};
+
+Tree MakeTree(int N);
+int Judge(Tree T,int N);
+int check(Tree T,int V);
+Tree NewNode(int V);
+Tree Insert(Tree T,int V);
+void ResetT(Tree T);
+void FreeTree(Tree T);
+
 int main()
 {
-	int i = 0;
-	printf("%d",i);
+	int N,L,i;  //N和L，分别是每个序列插入元素的个数和需要检查的序列个数
+	Tree T;
+
+	scanf("%d",&N);
+	while (N) {
+		scanf("%d",&L);
+		T = MakeTree(N);
+		for (i = 0; i < L; i++) {
+			if (Judge(T,N)) printf("Yes\n");
+			else printf("No\n");
+			ResetT(T);  //清除T中的标记flag
+		}
+		FreeTree(T);
+		scanf("%d",&N);
+	}
 	return 0;
 }
-*/
+
+Tree MakeTree(int N)
+{
+	Tree T;
+	int i,V;
+	scanf("%d",&V);
+	T = NewNode(V);
+	for (i = 1; i < N; i++) {
+		scanf("%d",&V);
+		T = Insert(T,V);
+	}
+	return T;
+}
+
+Tree NewNode(int V)
+{
+	Tree T = (Tree)malloc(sizeof(struct TreeNode));
+	T->v = V;
+	T->Left = T->Right = NULL;
+	T->flag = 0;
+	return T;
+}
+
+Tree Insert(Tree T,int V)
+{
+	if (!T)  T = NewNode(V);
+	else {
+		if (V > T->v)
+			T->Right = Insert(T->Right,V);
+		else
+			T->Left = Insert(T->Left,V);
+	}
+	return T;
+}
+
+int Judge(Tree T,int N)
+{
+	int i,V,flag = 0;  //flag:0代表目前还一致,1代表已经不一致
+	scanf("%d",&V);
+	if (V != T->v) flag = 1;
+	else T->flag = 1;
+	for (i = 1; i < N; i++) {
+		scanf("%d",&V);
+		if ((!flag) && (!check(T,V))) flag = 1;
+	}
+	if (flag) return 0;
+	else return 1;
+}
+
+int check(Tree T,int V)
+{
+	if (T->flag) {
+		if (V < T->v) return check(T->Left,V);
+		else if (V > T->v) return check(T->Right,V);
+		else return 0;
+	}
+	else {
+		if (V == T->v) {
+			T->flag = 1;
+			return 1;
+		}
+		else return 0;
+	}
+}
+
+void ResetT(Tree T) //清除T中各结点的flag的标记
+{
+	if (T->Left) ResetT(T->Left);
+	if (T->Right) ResetT(T->Right);
+	T->flag = 0;
+}
+
+void FreeTree(Tree T)  //释放T的空间
+{
+	if (T->Left) FreeTree(T->Left);
+	if (T->Right) FreeTree(T->Right);
+	free(T);
+}
