@@ -309,7 +309,85 @@ void printfList(Node *list,int p)
 }
 */
 
-// 5 ///02-线性结构3 Pop Sequence
+// 5 ///********************************02-线性结构3 Pop Sequence
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 1000
+typedef struct StackRecord {  //重点掌握顺序堆栈的表示
+	int capacity;  //堆栈容量
+	int top;  //栈顶指针
+	int data[MAX];  //存储元素的数组
+}*Stack;
+
+//初始化一个堆栈
+Stack CreateStack(int capacity)
+{
+	Stack S = (Stack)malloc(sizeof(struct StackRecord));
+	S->top = -1;
+	S->capacity = capacity;
+	return S;
+}
+//将x压入堆栈
+int Push(Stack S,int x)
+{
+	if (S->capacity - S->top <= 1)  //栈满
+		return 0;
+	S->data[++S->top] = x;
+	return 1;
+}
+//返回栈顶元素，空栈时返回-1;
+int Top(Stack S)
+{
+	if (S->top >= 0)
+		return S->data[S->top];
+	else
+		return -1;
+}
+//弹出栈顶元素，使栈顶指针下移一个位置
+void Pop(Stack S)
+{
+	S->top--;
+}
+//模拟进栈出栈过程：依次入栈并同时与出栈序列的第一个元素对比；若相等则弹出栈顶元素，
+//并消去出栈序列的首元素;全部已入栈后出栈序列中的元素全部被消去则返回1，否则返回0；
+int IsPopSeq(int *popOrder,int capacity,int n)
+{
+	int node;
+	int head = 0;  //维护一个下标，指向出栈序列中还没被消去的第一个元素
+	Stack S = CreateStack(capacity);  
+	for (node = 1; node <= n; node++) {
+		if (!Push(S,node)) { //如果入栈失败表示栈满，则返回0 
+			free(S);
+			return 0;
+		}
+		while(Top(S) == popOrder[head]) {
+			Pop(S);
+			head++;
+		}
+	}
+	free(S);  //释放堆栈所占的空间
+	if (head != n)  //出栈序列不为空，则返回0
+		return 0;
+	return 1;
+}
+
+int main()
+{
+	int n,m,k;
+	int i,j;
+	int popOrder[MAX];
+	scanf("%d %d %d",&m,&n,&k);
+	for (i = 0; i < k; i++) {
+		for (j = 0; j < n; j++) {
+			scanf("%d",&popOrder[j]);
+		}
+		if (IsPopSeq(popOrder,m,n))
+			printf("YES\n");
+		else
+			printf("NO\n");	
+	}
+	return 0;
+}
 
 // 6 ///********************************03-树1 树的同构****************
 /*
@@ -644,3 +722,124 @@ void FreeTree(Tree T)  //释放T的空间
 	if (T->Right) FreeTree(T->Right);
 	free(T);
 }
+
+// 10 ///***********************************************04-树5 Root of AVL Tree*****
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct AVLNode *Position;
+typedef Position AVLTree; /* AVL树类型 */
+typedef struct AVLNode{
+    ElementType Data; /* 结点数据 */
+    AVLTree Left;     /* 指向左子树 */
+    AVLTree Right;    /* 指向右子树 */
+    int Height;       /* 树高 */
+}
+#define MAX 20
+ 
+int Max ( int a, int b )
+{
+    return a > b ? a : b;
+}
+ 
+AVLTree SingleLeftRotation ( AVLTree A )  //左单旋
+{ /* 注意：A必须有一个左子结点B */
+  /* 将A与B做左单旋，更新A与B的高度，返回新的根结点B */     
+ 
+    AVLTree B = A->Left;
+    A->Left = B->Right;
+    B->Right = A;
+    A->Height = Max( GetHeight(A->Left), GetHeight(A->Right) ) + 1;
+    B->Height = Max( GetHeight(B->Left), A->Height ) + 1;
+  
+    return B;
+}
+
+AVLTree SingleRightRotation(AVLTree A)  //右单旋
+{  /* 注意：A必须有一个右子结点B */
+  /* 将A与B做右单旋，更新A与B的高度，返回新的根结点B */ 
+    AVLTree B = A->Right;
+    A->Right = B->Left;
+    B->Left = A;
+    A->Height = Max(GetHeight(A->Left),GetHeight(A->Right)) + 1;
+    B->Height = Max(GetHeight(B->Right),A->Height) + 1;
+
+    return B;
+}
+ 
+AVLTree DoubleLeftRightRotation ( AVLTree A )  //左右双旋
+{ /* 注意：A必须有一个左子结点B，且B必须有一个右子结点C */
+  /* 将A、B与C做两次单旋，返回新的根结点C */
+     
+    /* 将B与C做右单旋，C被返回 */
+    A->Left = SingleRightRotation(A->Left);
+    /* 将A与C做左单旋，C被返回 */
+    return SingleLeftRotation(A);
+}
+
+AVLTree DoubleRightLeftRotation(AVLTree A)  //右-左双旋
+{ /* 注意：A必须有一个右子结点B，且B必须有一个左子结点C */
+  /* 将A、B与C做两次单旋，返回新的根结点C */
+     
+    /* 将B与C做左单旋，C被返回 */
+    A->Right = SingleLeftRotation(A->Right);
+    /* 将A与C做左单旋，C被返回 */
+    return SingleRightRotation(A);
+}
+ 
+AVLTree Insert( AVLTree T, ElementType X )
+{ /* 将X插入AVL树T中，并且返回调整后的AVL树 */
+    if ( !T ) { /* 若插入空树，则新建包含一个结点的树 */
+        T = (AVLTree)malloc(sizeof(struct AVLNode));
+        T->Data = X;
+        T->Height = 0;
+        T->Left = T->Right = NULL;
+    } /* if (插入空树) 结束 */
+ 
+    else if ( X < T->Data ) {
+        /* 插入T的左子树 */
+        T->Left = Insert( T->Left, X);
+        /* 如果需要左旋 */
+        if ( GetHeight(T->Left)-GetHeight(T->Right) == 2 )
+            if ( X < T->Left->Data ) 
+               T = SingleLeftRotation(T);      /* 左单旋 */
+            else 
+               T = DoubleLeftRightRotation(T); /* 左-右双旋 */
+    } /* else if (插入左子树) 结束 */
+     
+    else if ( X > T->Data ) {
+        /* 插入T的右子树 */
+        T->Right = Insert( T->Right, X );
+        /* 如果需要右旋 */
+        if ( GetHeight(T->Left)-GetHeight(T->Right) == -2 )
+            if ( X > T->Right->Data ) 
+               T = SingleRightRotation(T);     /* 右单旋 */
+            else 
+               T = DoubleRightLeftRotation(T); /* 右-左双旋 */
+    } /* else if (插入右子树) 结束 */
+ 
+    /* else X == T->Data，无须插入 */
+ 
+    /* 别忘了更新树高 */
+    T->Height = Max( GetHeight(T->Left), GetHeight(T->Right) ) + 1;
+     
+    return T;
+}
+
+int main()
+{
+	int N,x;
+	AVLTree T;
+	scanf("%d",&N);
+	if (N <= MAX) {
+		while (N--) {
+			scanf("%d",&x);
+			T = Insert(T,x);
+		}
+	}
+	if (T)
+		printf("%d",T->Data);
+	return 0;
+}
+
+
+
